@@ -37,6 +37,12 @@ public abstract class BaseModel implements Serializable {
     @Column(name = "update_time", columnDefinition = "datetime comment '更新时间'")
     private LocalDateTime updateTime;
 
+    /**
+     * 创建者
+     */
+    @Column(name = "creator", columnDefinition = "varchar(128) comment '创建者'")
+    private String creator;
+
     public String getId() {
         return this.id;
     }

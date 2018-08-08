@@ -1,6 +1,7 @@
 package com.zero.file.service.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 上传文件组
@@ -16,20 +17,13 @@ public class ZeroFileGroup extends BaseModel {
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "file_group_id")
-    private ZeroFileInfo fileInfo;
+    private List<ZeroFileInfo> fileInfo;
 
-    public ZeroFileGroup() {
-    }
-
-    public ZeroFileGroup(ZeroFileInfo fileInfo) {
-        this.fileInfo = fileInfo;
-    }
-
-    public ZeroFileInfo getFileInfo() {
+    public List<ZeroFileInfo> getFileInfo() {
         return this.fileInfo;
     }
 
-    public void setFileInfo(ZeroFileInfo fileInfo) {
+    public void setFileInfo(List<ZeroFileInfo> fileInfo) {
         this.fileInfo = fileInfo;
     }
 }
