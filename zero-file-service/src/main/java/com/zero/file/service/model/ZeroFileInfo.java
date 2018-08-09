@@ -1,6 +1,7 @@
 package com.zero.file.service.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * 上传文件信息表
@@ -40,6 +41,10 @@ public class ZeroFileInfo extends BaseModel {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ZeroFileGroup fileGroup;
 
+    public ZeroFileInfo() {
+        this.setCreateTime(LocalDateTime.now());
+        this.setUpdateTime(LocalDateTime.now());
+    }
 
     public String getOriginalFileName() {
         return this.originalFileName;

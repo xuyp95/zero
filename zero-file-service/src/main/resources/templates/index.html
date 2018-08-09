@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>上传文件</title>
+    <!-- 设置图标 -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="/bootstrap/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+
+    <!-- AdminLTE 引入相关文件 start -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bootstrap/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/plugin/admin_lte/css/AdminLTE.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="/plugin/admin_lte/css/skins/skin-blue.min.css">
+    <!-- AdminLTE 引入相关文件 end -->
+    <!-- bootstrap addTabs 引入相关文件 start -->
+    <link rel="stylesheet" href="/plugin/addTabs/css/bootstrap.addtabs.css">
+    <!-- bootstrap addTabs 引入相关文件 end -->
+    <!-- bootstrap-table组件 -->
+    <link href="/plugin/bootstrap-table/css/bootstrap-table.css" rel="stylesheet">
+    <!-- bootstrap dialog -->
+    <link href="/plugin/dialog/css/bootstrap-dialog.css" rel="stylesheet">
+
+    <!-- file input -->
+    <link href="/plugin/fileinput/css/fileinput.css" rel="stylesheet">
+    <!-- 自定义修改相关样式 -->
+    <link href="/index/css/index.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+        }
+        .panel-body {
+            background-color: white;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- 头部logo信息 -->
+        <!-- Main Header -->
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">ZERO</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">ZERO</span>
+            </a>
+            <!-- 上方导航栏 -->
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- 折叠左侧菜单栏按钮 -->
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+            </nav>
+        </header>
+        <!-- 左侧导航栏 -->
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div style="text-align: center;padding: 11px 0;border-radius: 50%;">
+                        <!--<img src="images/kudog_logo.png" style="width: 100px;background-color: #ffffff;border-radius: 50%;"/>-->
+                    </div>
+                </div>
+                <!-- 左侧导航列表 -->
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-th-list"></i> <span>上传文件管理</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#" class="nav-link nav-toggle" data-addtab="studentManager" data-url="/filePage">
+                                    <i class="glyphicon glyphicon-user"></i>上传文件
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <!-- 主体内容部分  start  -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!--<div class="panel panel-default">-->
+                <div class="panel-body">
+                    <div id="tabs">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active">
+                                <!--<a href="#home" role="tab" data-toggle="tab">Home</a>-->
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <!--<div role="tabpanel" class="tab-pane active" id="home">I'm a homepage.</div>-->
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+        </div>
+        <!-- 主体内容部分  end  -->
+        <!-- 主体页脚内容 -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Anything you want
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2018 <a href="#">ZERO</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+    <!-- 引入公共脚本 -->
+    <div th:include="common/_footer::footer"></div>
+</body>
+</html>

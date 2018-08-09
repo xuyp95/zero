@@ -22,8 +22,8 @@ public class LocalFileUtil {
      * @param fileContent 文件内容
      * @return
      */
-    public Boolean saveFile(String savePath, String originalFileName, byte[] fileContent) {
-        boolean result = false;
+    public static String saveFile(String savePath, String originalFileName, byte[] fileContent) {
+        String filePath = null;
         OutputStream outputStream = null;
         try {
             File file = new File(savePath);
@@ -33,11 +33,11 @@ public class LocalFileUtil {
             }
             // 文件名采用唯一标识，原始文件名存储于业务表中
             String fileName = UUID.randomUUID().toString().replaceAll("-","");
-            String fileSuffix = originalFileName.split("\\.")[1];
+            String fileSuffix = originalFileName.substring(originalFileName.lastIndexOf('.'));
             // 输出
             outputStream = new FileOutputStream(savePath + fileName + fileSuffix);
             outputStream.write(fileContent);
-            result = true;
+            filePath = savePath + fileName + fileSuffix;
         } catch (IOException e) {
             log.error("save file exception.", e);
         } finally {
@@ -45,12 +45,12 @@ public class LocalFileUtil {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    result = false;
+                    filePath = null;
                     log.error("close outputStream Exception", e);
                 }
             }
         }
-        return result;
+        return filePath;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.zero.file.service.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,6 +19,20 @@ public class ZeroFileGroup extends BaseModel {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "file_group_id")
     private List<ZeroFileInfo> fileInfo;
+
+    @Column(name = "group_key", unique = true, columnDefinition = "char(36) comment '分组标识'")
+    private String groupKey;
+
+    public ZeroFileGroup() {
+        this.setCreateTime(LocalDateTime.now());
+        this.setUpdateTime(LocalDateTime.now());
+    }
+
+    public ZeroFileGroup(String groupKey) {
+        this.groupKey = groupKey;
+        this.setCreateTime(LocalDateTime.now());
+        this.setUpdateTime(LocalDateTime.now());
+    }
 
     public List<ZeroFileInfo> getFileInfo() {
         return this.fileInfo;
