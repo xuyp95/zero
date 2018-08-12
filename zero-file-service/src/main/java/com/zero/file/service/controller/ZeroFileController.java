@@ -1,12 +1,15 @@
 package com.zero.file.service.controller;
 
 import com.zero.file.service.service.ZeroFileInfoService;
+import com.zero.file.service.vo.TableVO;
+import com.zero.file.service.vo.ZeroFileInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
@@ -14,10 +17,28 @@ import java.util.UUID;
  * @Date:2018/8/6 22:33
  */
 @Controller
+@RequestMapping("file")
 public class ZeroFileController {
 
     @Autowired
     private ZeroFileInfoService zeroFileInfoService;
+
+    /**
+     * 文件列表页面
+     * @return
+     */
+    @GetMapping("fileList")
+    public String fileList() {
+        return "file/fileList";
+    }
+
+    @PostMapping("getAllByPage")
+    @ResponseBody
+    public TableVO getAllByPage(TableVO tableVO, ZeroFileInfoVO fileInfoVO) {
+
+        TableVO retVO = zeroFileInfoService.getAllByPage(tableVO, fileInfoVO);
+        return retVO;
+    }
 
     /**
      * 显示上传页面

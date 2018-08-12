@@ -53,7 +53,7 @@
          * 将打开的tab页记录到本地中，刷新页面时自动打开，默认不使用
          * @type {Boolean}
          */
-        store: true,// 默认是false,现改成true modify by:xuyp 2018-06-24
+        store: false,// 默认是false,现改成true modify by:xuyp 2018-06-24
         /**
          * 保存的项目名称，为了区分项目
          * @type {String}

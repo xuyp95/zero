@@ -24,8 +24,8 @@
     var groupKey = [[${groupKey}]];
     $("#file-1").fileinput({
         language: 'zh',
-        uploadUrl: CTX + 'uploadFile?groupKey=' + groupKey, // you must set a valid URL here else you will get an error
-        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        uploadUrl: CTX + 'file/uploadFile?groupKey=' + groupKey, // you must set a valid URL here else you will get an error
+        allowedFileExtensions: [],
         showUpload: true, //是否显示上传按钮
         showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式

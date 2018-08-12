@@ -19,20 +19,15 @@ public class ZeroFileInfo extends BaseModel {
     private String originalFileName;
 
     /**
-     * 保存文件名
-     */
-    @Column(name = "file_name", columnDefinition = "varchar(128) comment '保存的文件名'")
-    private String fileName;
-
-    /**
      * 文件保存路径，本地硬盘路径/共享文件路径
      */
-    @Column(name = "path", columnDefinition = "varchar(512)")
+    @Column(name = "path", columnDefinition = "varchar(512) comment '文件保存路径'")
     private String path;
 
     /**
      * 保存文件方式，保存到本地或者保存到共享文件夹，etc.
      */
+    @Column(name = "save_file_way", columnDefinition = "char(16) comment '保存文件的方式'")
     private String saveFileWay;
 
     /**
@@ -42,8 +37,8 @@ public class ZeroFileInfo extends BaseModel {
     private ZeroFileGroup fileGroup;
 
     public ZeroFileInfo() {
-        this.setCreateTime(LocalDateTime.now());
-        this.setUpdateTime(LocalDateTime.now());
+        this.createTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
     }
 
     public String getOriginalFileName() {
@@ -52,14 +47,6 @@ public class ZeroFileInfo extends BaseModel {
 
     public void setOriginalFileName(String originalFileName) {
         this.originalFileName = originalFileName;
-    }
-
-    public String getFileName() {
-        return this.fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public String getPath() {
