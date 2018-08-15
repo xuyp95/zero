@@ -33,7 +33,7 @@ public class ZeroFileInfo extends BaseModel {
     /**
      * 关联文件组
      */
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ZeroFileGroup fileGroup;
 
     public ZeroFileInfo() {

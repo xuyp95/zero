@@ -15,8 +15,9 @@ public class ZeroFileGroup extends BaseModel {
 
     /**
      * 文件组关联的文件
+     * 级联说明：https://www.cnblogs.com/dixinyunpan/p/5796585.html
      */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_group_id")
     private List<ZeroFileInfo> fileInfo;
 
@@ -40,5 +41,13 @@ public class ZeroFileGroup extends BaseModel {
 
     public void setFileInfo(List<ZeroFileInfo> fileInfo) {
         this.fileInfo = fileInfo;
+    }
+
+    public String getGroupKey() {
+        return this.groupKey;
+    }
+
+    public void setGroupKey(String groupKey) {
+        this.groupKey = groupKey;
     }
 }

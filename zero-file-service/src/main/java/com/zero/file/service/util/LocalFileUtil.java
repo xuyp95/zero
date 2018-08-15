@@ -59,7 +59,7 @@ public class LocalFileUtil {
      * @param outputStream
      * @return
      */
-    public void readLocalFile(String filePath, OutputStream outputStream) {
+    public static void readLocalFile(String filePath, OutputStream outputStream) {
         File file = new File(filePath);
         if (!file.exists()) {
             return;
@@ -84,5 +84,20 @@ public class LocalFileUtil {
                 }
             }
         }
+    }
+
+    /**
+     * 删除文件
+     * @param path 文件路径
+     * @return 返回删除结果
+     */
+    public static String deleteFile(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        } else {
+            return "文件不存在";
+        }
+        return null;
     }
 }

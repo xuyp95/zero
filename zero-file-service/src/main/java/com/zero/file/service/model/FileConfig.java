@@ -16,7 +16,7 @@ public class FileConfig extends BaseModel {
     /**
      * 配置参数的键
      */
-    @Column(name = "config_key", unique = true, columnDefinition = "varchar(128) commet '配置参数的键'")
+    @Column(name = "config_key", unique = true, columnDefinition = "varchar(128) comment '配置参数的键'")
     private String configKey;
 
     /**

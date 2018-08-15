@@ -24,8 +24,8 @@ var FileTable = function() {
             pageNumber: 1,                       //初始化加载第一页，默认第一页
             pageSize: 30,                       //每页的记录行数（*）
             pageList: [30, 50, 100, 200],        //可供选择的每页的行数（*）
-            showColumns: true,                  //是否显示所有的列
-            showRefresh: true,                  //是否显示刷新按钮
+            showColumns: false,                  //是否显示所有的列
+            showRefresh: false,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: false,                //是否启用点击选中行
 //            height: $(window).height() - $(".main-header").height() -$(".main-footer").height()-$(".nav-tabs").height()-$(".panel-heading").height() - 70,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
@@ -61,7 +61,11 @@ var FileTable = function() {
                 align: 'center',
                 valign: 'center',
                 formatter: function(value, row) {
-                    return "";
+                    var str = "";
+                    str += '<a href="#" onclick="view(\'' + row.path + '\')">查看</a>';
+                    str += ' | <a href="#" onclick="delFile(\'' + row.id + '\')" style="color: red;">删除</a>';
+
+                    return str;
                 }
             }]
         });
@@ -76,3 +80,35 @@ var FileTable = function() {
     };
     return oTableInit;
 };
+
+// 查看文件
+function view(path) {
+    path = path.split("D:/fileService/")[1];
+    var url = CTX + path;
+    window.open(url);
+}
+
+// 删除文件
+function delFile(fileId) {
+    $.ajax({
+        url: CTX + "file/deleteFile",
+        type: "get",
+        data: {fileId: fileId},
+        dataType: "json",
+        success: function(data) {
+            if (data.code == "success") {
+                alert("成功");
+            } else {
+                alert(data.msg);
+            }
+
+        },
+        error: function () {
+            alert("删除失败");
+        }
+    })
+}
+// 刷新列表
+function refresh() {
+    $('#fileInfoTable').bootstrapTable("refreshOption",{pageNo:1, pageSize:30})
+}

@@ -3,8 +3,10 @@ package com.zero.file.service.service.impl;
 import com.zero.file.service.model.ZeroFileGroup;
 import com.zero.file.service.model.ZeroFileInfo;
 import com.zero.file.service.repository.ZeroFileInfoRepository;
+import com.zero.file.service.service.ZeroFileGroupService;
 import com.zero.file.service.service.ZeroFileInfoService;
 import com.zero.file.service.util.LocalFileUtil;
+import com.zero.file.service.vo.ResultMessage;
 import com.zero.file.service.vo.TableVO;
 import com.zero.file.service.vo.ZeroFileInfoVO;
 import org.apache.commons.beanutils.BeanUtils;
@@ -12,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +24,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 文件信息 Service
@@ -37,6 +42,10 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
 
     @Autowired
     private ZeroFileInfoRepository fileInfoRepository;
+    @Autowired
+    private ZeroFileGroupService zeroFileGroupService;
+    @Value("${file.server.upload.path}")
+    private String fileUploadPath;
 
     @Override
     public void saveFile(MultipartFile file, String groupKey) {
@@ -44,14 +53,17 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
         // 保存文件
         String filePath = null;
         try {
-            filePath = LocalFileUtil.saveFile("D:/fileService/",file.getOriginalFilename(), file.getBytes());
+            filePath = LocalFileUtil.saveFile(fileUploadPath,file.getOriginalFilename(), file.getBytes());
         } catch (IOException e) {
             log.error("", e);
             throw new RuntimeException("save file error");
         }
 
         // 保存文件信息
-        ZeroFileGroup group = new ZeroFileGroup(groupKey);
+        ZeroFileGroup group = zeroFileGroupService.findOne(groupKey);
+        if (group == null) {
+            group = zeroFileGroupService.save(new ZeroFileGroup(groupKey));
+        }
         ZeroFileInfo fileInfo = new ZeroFileInfo();
         fileInfo.setOriginalFileName(file.getOriginalFilename());
         fileInfo.setPath(filePath);
@@ -59,6 +71,17 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
         fileInfo.setSaveFileWay("local");
         fileInfoRepository.save(fileInfo);
     }
+
+    @Override
+    public void readFile(String fileId, OutputStream outputStream) {
+        if (StringUtils.isNotBlank(fileId)) {
+            ZeroFileInfo fileInfo = fileInfoRepository.findById(fileId).get();
+            LocalFileUtil.readLocalFile(fileInfo.getPath(), outputStream);
+        } else {
+            throw new RuntimeException("文件对象不存在");
+        }
+    }
+
 
     @Override
     public TableVO getAllByPage(TableVO tableVO, ZeroFileInfoVO fileInfoVO) {
@@ -96,5 +119,28 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
         tableVO.setTotal(page.getTotalElements());
 
         return tableVO;
+    }
+
+    @Override
+    public ResultMessage deleteFile(String fileId) {
+
+        if (StringUtils.isNotBlank(fileId)) {
+            Optional<ZeroFileInfo> optional = fileInfoRepository.findById(fileId);
+            if (optional.isPresent()) {
+                ZeroFileInfo fileInfo = optional.get();
+                String path = fileInfo.getPath();
+                // 删除文件
+                LocalFileUtil.deleteFile(path);
+                // 判断当前的文件组是不是只剩下当前文件，是的话也一起删除
+                List<ZeroFileInfo> fileInfos = fileInfo.getFileGroup().getFileInfo();
+                if (fileInfos != null && fileInfos.size() <= 1 && fileId.equals(fileInfos.get(0).getId())) {
+                    zeroFileGroupService.delete(fileInfo.getFileGroup());
+                }
+                // 删除记录
+                fileInfoRepository.delete(fileInfo);
+                return ResultMessage.success();
+            }
+        }
+        return ResultMessage.fail("id为空");
     }
 }

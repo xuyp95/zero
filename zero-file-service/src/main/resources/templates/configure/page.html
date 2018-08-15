@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>参数配置</title>
+</head>
+<body>
+    <div>
+        <div>
+            <input type="radio" value="local" name="uploadWay"/> 本地方式
+            <div>
+                <label>上传文件服务的路径</label>
+                <input type="text" name="localfilePath" class="form-control"/>
+            </div>
+        </div>
+        <div>
+            <input type="radio" value="smb" name="uploadWay"/> 共享文件方式(windows)
+            <div>
+                <label>共享文件路径</label>
+                <input type="text" name="smbFilePath" class="form-control"/>
+            </div>
+        </div>
+        <div>
+            其他方式待扩展
+        </div>
+        <hr/>
+        <div>
+            <a href="#" class="btn btn-primary">保存</a>
+        </div>
+    </div>
+</body>
+</html>

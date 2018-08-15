@@ -35,7 +35,7 @@
     <!-- file input -->
     <link href="/plugin/fileinput/css/fileinput.css" rel="stylesheet">
     <!-- 自定义修改相关样式 -->
-    <link href="/index/css/index.css" rel="stylesheet">
+    <link href="/index/index.css" rel="stylesheet">
     <style>
         body {
             background-color: white;
@@ -83,20 +83,25 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="treeview">
                         <a href="#">
-                            <i class="glyphicon glyphicon-th-list"></i> <span>上传文件管理</span>
+                            <i class="glyphicon glyphicon-file"></i> <span>上传文件管理</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a href="#" class="nav-link nav-toggle" data-addtab="filePage" data-url="/file/fileList">
-                                    <i class="glyphicon glyphicon-user"></i>文件列表
+                                <a href="#" class="nav-link nav-toggle" data-addtab="fileList" data-url="/file/fileList">
+                                    <i class="glyphicon glyphicon-folder-open"></i> 文件列表
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="nav-link nav-toggle" data-addtab="fileUpload" data-url="/file/filePage">
-                                    <i class="glyphicon glyphicon-user"></i>上传文件
+                                    <i class="glyphicon glyphicon-cloud-upload"></i> 上传文件
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link nav-toggle" data-addtab="fileConfigure" data-url="/configure">
+                                    <i class="glyphicon glyphicon-list-alt"></i> 参数配置
                                 </a>
                             </li>
                         </ul>
