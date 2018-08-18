@@ -2,6 +2,7 @@ package com.zero.file.service.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.UUID;
@@ -51,6 +52,41 @@ public class LocalFileUtil {
             }
         }
         return filePath;
+    }
+
+    /**
+     * 保存文件到本地
+     * @param filePath 文件路径
+     * @param file 上传文件对象
+     * @return
+     */
+    public static String saveFile(final String filePath, final MultipartFile file) throws IOException {
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        File saveFile = new File(filePath);
+        if (!saveFile.exists()) {
+            saveFile.mkdir();
+        }
+        // 文件名采用唯一标识，原始文件名存储于业务表中
+        final String fileOriginalName = file.getOriginalFilename();
+        final String uuid = UUID.randomUUID().toString();
+        String fileName = uuid.replaceAll("-","");
+        String fileSuffix = fileOriginalName.substring(fileOriginalName.lastIndexOf('.'));
+        inputStream = file.getInputStream();
+        String fileNamePath = filePath + fileName + fileSuffix;
+        outputStream = new FileOutputStream(fileNamePath);
+        byte[] bytes = new byte[2048];
+        while ((inputStream.read(bytes)) != -1) {
+            outputStream.write(bytes);
+        }
+        if (inputStream != null) {
+            inputStream.close();
+        }
+        if (outputStream != null) {
+            outputStream.flush();;
+            outputStream.close();
+        }
+        return fileNamePath;
     }
 
     /**

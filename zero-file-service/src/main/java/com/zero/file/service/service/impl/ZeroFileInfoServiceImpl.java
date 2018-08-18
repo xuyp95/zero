@@ -3,8 +3,10 @@ package com.zero.file.service.service.impl;
 import com.zero.file.service.model.ZeroFileGroup;
 import com.zero.file.service.model.ZeroFileInfo;
 import com.zero.file.service.repository.ZeroFileInfoRepository;
+import com.zero.file.service.service.FileConfigService;
 import com.zero.file.service.service.ZeroFileGroupService;
 import com.zero.file.service.service.ZeroFileInfoService;
+import com.zero.file.service.util.FileUtil;
 import com.zero.file.service.util.LocalFileUtil;
 import com.zero.file.service.vo.ResultMessage;
 import com.zero.file.service.vo.TableVO;
@@ -44,16 +46,19 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
     private ZeroFileInfoRepository fileInfoRepository;
     @Autowired
     private ZeroFileGroupService zeroFileGroupService;
-    @Value("${file.server.upload.path}")
-    private String fileUploadPath;
+    @Autowired
+    private FileConfigService fileConfigService;
+    @Autowired
+    private FileUtil fileUtil;
 
     @Override
     public void saveFile(MultipartFile file, String groupKey) {
-
         // 保存文件
         String filePath = null;
+        // 根据不同方式选择不同的处理
+        String way = fileConfigService.getWay();
         try {
-            filePath = LocalFileUtil.saveFile(fileUploadPath,file.getOriginalFilename(), file.getBytes());
+            filePath = fileUtil.saveFile(file, way);
         } catch (IOException e) {
             log.error("", e);
             throw new RuntimeException("save file error");
@@ -68,7 +73,7 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
         fileInfo.setOriginalFileName(file.getOriginalFilename());
         fileInfo.setPath(filePath);
         fileInfo.setFileGroup(group);
-        fileInfo.setSaveFileWay("local");
+        fileInfo.setSaveFileWay(way);
         fileInfoRepository.save(fileInfo);
     }
 
@@ -76,7 +81,7 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
     public void readFile(String fileId, OutputStream outputStream) {
         if (StringUtils.isNotBlank(fileId)) {
             ZeroFileInfo fileInfo = fileInfoRepository.findById(fileId).get();
-            LocalFileUtil.readLocalFile(fileInfo.getPath(), outputStream);
+            fileUtil.readFile(fileInfo, outputStream);
         } else {
             throw new RuntimeException("文件对象不存在");
         }
@@ -128,9 +133,8 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
             Optional<ZeroFileInfo> optional = fileInfoRepository.findById(fileId);
             if (optional.isPresent()) {
                 ZeroFileInfo fileInfo = optional.get();
-                String path = fileInfo.getPath();
                 // 删除文件
-                LocalFileUtil.deleteFile(path);
+                fileUtil.deleteFile(fileInfo);
                 // 判断当前的文件组是不是只剩下当前文件，是的话也一起删除
                 List<ZeroFileInfo> fileInfos = fileInfo.getFileGroup().getFileInfo();
                 if (fileInfos != null && fileInfos.size() <= 1 && fileId.equals(fileInfos.get(0).getId())) {

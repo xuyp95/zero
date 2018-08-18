@@ -1,31 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <title>参数配置</title>
+    <link href="/page/file/configure/css/configurePage.css" rel="stylesheet">
 </head>
 <body>
-    <div>
-        <div>
-            <input type="radio" value="local" name="uploadWay"/> 本地方式
+    <form id="configForm">
+        <div class="div-border">
             <div>
-                <label>上传文件服务的路径</label>
-                <input type="text" name="localfilePath" class="form-control"/>
+                <input type="radio" value="local" name="uploadWay" th:checked="${way == 'local'}" onchange="changeWay('local')"/> 本地方式
+                <div class="form-group">
+                    <label>上传文件服务的路径</label>
+                    <input type="text" name="localfilePath" class="form-control"/>
+                </div>
+            </div>
+            <div >
+                <input type="radio" value="smb" name="uploadWay" th:checked="${way == 'smb'}" onchange="changeWay('smb')"/> 共享文件方式(windows)
+                <div class="form-group">
+                    <label>共享文件路径</label>
+                    <input type="text" name="smbFilePath" class="form-control" th:disabled="${way != 'smb'}"/>
+                </div>
             </div>
         </div>
-        <div>
-            <input type="radio" value="smb" name="uploadWay"/> 共享文件方式(windows)
-            <div>
-                <label>共享文件路径</label>
-                <input type="text" name="smbFilePath" class="form-control"/>
-            </div>
-        </div>
-        <div>
-            其他方式待扩展
+        <div style="margin-top: 20px;">
+            其他参数待扩展(本页参数待真正业务使用中扩展，暂时未使用，功能也未实现)
         </div>
         <hr/>
         <div>
-            <a href="#" class="btn btn-primary">保存</a>
+            <a href="#" class="btn btn-primary" onclick="save()">保存</a>
         </div>
-    </div>
-</body>
+    </form>
+</body><script th:inline="javascript">
+    // 需要thymeleaf 解析获取数据的脚本，需要放在 <script th:inline="javascript"> 标签内 所以就不抽取了
+    // 对应页面的脚本必须在 该脚本之后加载，有用到对应的变量
+    /*<![CDATA[*/
+    var CTX = [[@{/}]];
+    /*]]>*/
+</script>
+<script src="/common/js/ZeroDialog.js"></script>
+<script src="/page/file/configure/js/configurePage.js"></script>
 </html>

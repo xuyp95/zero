@@ -71,8 +71,13 @@ public class ZeroFileController {
         return "{\"code\":\"success\"}";
     }
 
-    @GetMapping("readFile")
-    public void readFile(String fileId, HttpServletResponse response) {
+    /**
+     * 读取文件流
+     * @param fileId
+     * @param response
+     */
+    @GetMapping("readFile/{fileId}")
+    public void readFile(@PathVariable String fileId, HttpServletResponse response) {
         try {
             zeroFileInfoService.readFile(fileId, response.getOutputStream());
         } catch (IOException e) {

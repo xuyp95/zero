@@ -64,6 +64,7 @@ var FileTable = function() {
                     var str = "";
                     str += '<a href="#" onclick="view(\'' + row.path + '\')">查看</a>';
                     str += ' | <a href="#" onclick="delFile(\'' + row.id + '\')" style="color: red;">删除</a>';
+                    str += ' | <a href="#" onclick="read(\'' + row.id + '\')" style="color: red;">下载</a>';
 
                     return str;
                 }
@@ -88,6 +89,12 @@ function view(path) {
     window.open(url);
 }
 
+// 读取文件流
+function read(id) {
+    var url = CTX + "file/readFile/" + id;
+    window.open(url);
+}
+
 // 删除文件
 function delFile(fileId) {
     $.ajax({
@@ -101,7 +108,6 @@ function delFile(fileId) {
             } else {
                 alert(data.msg);
             }
-
         },
         error: function () {
             alert("删除失败");
@@ -110,5 +116,5 @@ function delFile(fileId) {
 }
 // 刷新列表
 function refresh() {
-    $('#fileInfoTable').bootstrapTable("refreshOption",{pageNo:1, pageSize:30})
+    $('#fileInfoTable').bootstrapTable("refreshOptions",{pageNo:1, pageSize:30})
 }
