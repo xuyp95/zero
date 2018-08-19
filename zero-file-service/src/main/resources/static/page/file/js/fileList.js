@@ -64,7 +64,8 @@ var FileTable = function() {
                     var str = "";
                     str += '<a href="#" onclick="view(\'' + row.path + '\')">查看</a>';
                     str += ' | <a href="#" onclick="delFile(\'' + row.id + '\')" style="color: red;">删除</a>';
-                    str += ' | <a href="#" onclick="read(\'' + row.id + '\')" style="color: red;">下载</a>';
+                    str += ' | <a href="#" onclick="read(\'' + row.id + '\')" >预览</a>';
+                    str += ' | <a href="#" onclick="downloadFile(\'' + row.id + '\')" >下载</a>';
 
                     return str;
                 }
@@ -93,6 +94,17 @@ function view(path) {
 function read(id) {
     var url = CTX + "file/readFile/" + id;
     window.open(url);
+}
+// 下载文件
+function downloadFile(id) {
+    var url = CTX + "file/download/" + id;
+    // window.open(url);
+    // window.location.href=url;
+    var $eleForm = $("<form method='GET'></form>");
+    $eleForm.attr("action", url);
+    $(document.body).append($eleForm);
+    //提交表单，实现下载
+    $eleForm.submit();
 }
 
 // 删除文件

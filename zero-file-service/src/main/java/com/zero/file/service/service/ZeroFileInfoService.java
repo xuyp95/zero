@@ -1,5 +1,6 @@
 package com.zero.file.service.service;
 
+import com.zero.file.service.model.ZeroFileInfo;
 import com.zero.file.service.vo.ResultMessage;
 import com.zero.file.service.vo.TableVO;
 import com.zero.file.service.vo.ZeroFileInfoVO;
@@ -41,4 +42,18 @@ public interface ZeroFileInfoService {
      * @return 返回消息体
      */
     ResultMessage deleteFile(String fileId);
+
+    /**
+     * 下载文件
+     * @param fileId
+     * @return 返回文件名
+     */
+    void download(ZeroFileInfo fileInfo, OutputStream outputStream);
+
+    /**
+     * 查询对象
+     * @param fileId
+     * @return
+     */
+    ZeroFileInfo findById(String fileId);
 }

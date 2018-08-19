@@ -1,5 +1,6 @@
 package com.zero.file.service.controller;
 
+import com.zero.file.service.model.ZeroFileInfo;
 import com.zero.file.service.service.ZeroFileInfoService;
 import com.zero.file.service.vo.ResultMessage;
 import com.zero.file.service.vo.TableVO;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.persistence.Table;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 /**
@@ -90,5 +92,28 @@ public class ZeroFileController {
     @ResponseBody
     public ResultMessage deleteFile(String fileId) {
         return zeroFileInfoService.deleteFile(fileId);
+    }
+
+    @GetMapping("fileExists/{fileId}")
+    @ResponseBody
+    public ResultMessage fileExists(@PathVariable String fileId) {
+        return null;
+    }
+
+    @GetMapping("download/{fileId}")
+    public void downloadFile(@PathVariable String fileId, HttpServletResponse response) {
+        // response 相关设置必须要在读取文件流之前
+        response.setContentType("application/force-download");// 设置成强制下载，避免浏览器进行预览
+        ZeroFileInfo fileInfo = zeroFileInfoService.findById(fileId);
+        if (fileInfo != null) {
+            String fileName = fileInfo.getOriginalFileName();
+            try {
+                response.addHeader("Content-Disposition",
+                        "attachment;fileName=\"" + new String(fileName.getBytes("gb2312"), "ISO-8859-1") + "\"");
+                zeroFileInfoService.download(fileInfo, response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

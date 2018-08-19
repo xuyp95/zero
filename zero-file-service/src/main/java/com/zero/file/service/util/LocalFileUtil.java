@@ -136,4 +136,15 @@ public class LocalFileUtil {
         }
         return null;
     }
+
+    /**
+     * 下载文件
+     * @param filePath
+     */
+    public static void download(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+
+        }
+    }
 }

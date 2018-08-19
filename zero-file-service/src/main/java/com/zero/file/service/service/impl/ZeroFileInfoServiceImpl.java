@@ -147,4 +147,18 @@ public class ZeroFileInfoServiceImpl implements ZeroFileInfoService {
         }
         return ResultMessage.fail("id为空");
     }
+
+    @Override
+    public void download(ZeroFileInfo fileInfo, OutputStream outputStream) {
+        fileUtil.readFile(fileInfo, outputStream);
+    }
+
+    @Override
+    public ZeroFileInfo findById(String fileId) {
+        Optional<ZeroFileInfo> optional = fileInfoRepository.findById(fileId);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
 }
