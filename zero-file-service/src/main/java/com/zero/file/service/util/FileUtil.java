@@ -3,9 +3,7 @@ package com.zero.file.service.util;
 import com.zero.file.service.model.ZeroFileInfo;
 import com.zero.file.service.service.FileConfigService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +28,7 @@ public class FileUtil {
      * @return
      */
     public String saveFile(MultipartFile file, String way) throws IOException {
-        String ret = null;
+        String ret;
         // 根据不同方式选择不同的处理
         way = StringUtils.isNotBlank(way) ? way : "ERROR";
         Way saveWay = Way.valueOf(way);
@@ -58,7 +56,7 @@ public class FileUtil {
         Way saveWay = Way.valueOf(way);
         switch (saveWay) {
             case SMB:
-//                SMBFileUtil
+                SMBFileUtil.readSmbFile(fileInfo.getPath(), outputStream);
                 break;
             case LOCAL:
                 LocalFileUtil.readLocalFile(fileInfo.getPath(), outputStream);
@@ -78,7 +76,7 @@ public class FileUtil {
         Way saveWay = Way.valueOf(way);
         switch (saveWay) {
             case SMB:
-//                SMBFileUtil
+                SMBFileUtil.deleteFile(zeroFileInfo.getPath());
                 break;
             case LOCAL:
                 LocalFileUtil.deleteFile(zeroFileInfo.getPath());

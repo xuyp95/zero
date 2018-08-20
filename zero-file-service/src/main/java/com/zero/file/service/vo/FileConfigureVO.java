@@ -1,5 +1,6 @@
 package com.zero.file.service.vo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.io.Serializable;
  * @Author:xuyp
  * @Date:2018/8/16 22:40
  */
-@Getter
-@Setter
+@Data
 public class FileConfigureVO implements Serializable{
     private static final long serialVersionUID = -4486047012993678380L;
 

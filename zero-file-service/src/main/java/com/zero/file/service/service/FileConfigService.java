@@ -1,9 +1,12 @@
 package com.zero.file.service.service;
 
 import com.zero.file.service.model.FileConfig;
+import com.zero.file.service.vo.FileConfigureVO;
+import com.zero.file.service.vo.ResultMessage;
 
 import java.util.Collection;
-import java.util.List; /**
+
+/**
  * 文件服务配置
  * @Author:xuyp
  * @Date:2018/8/12 23:56
@@ -40,4 +43,16 @@ public interface FileConfigService {
      * @return
      */
     String getSmbUrl();
+
+    /**
+     * 保存配置参数
+     * @param configureVO
+     */
+    ResultMessage save(FileConfigureVO configureVO);
+
+    /**
+     * get config value
+     * @return
+     */
+    FileConfigureVO getConfig();
 }

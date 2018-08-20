@@ -3,7 +3,6 @@ package com.zero.file.service.util;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileOutputStream;
-import jdk.internal.util.xml.impl.Input;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,7 +76,7 @@ public class SMBFileUtil {
      * @param smbUrl smb文件路径
      * @param outputStream
      */
-    public void readSmbFile(String smbUrl, OutputStream outputStream) {
+    public static void readSmbFile(String smbUrl, OutputStream outputStream) {
 
         InputStream inputStream = null;
         try {
@@ -91,11 +90,11 @@ public class SMBFileUtil {
                 outputStream.write(bytes);
             }
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            log.error("reade smb file to OuputStream Error.", e);
         } catch (SmbException e) {
-            e.printStackTrace();
+            log.error("reade smb file to OuputStream Error.", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("reade smb file to OuputStream Error.", e);
         } finally {
             try {
                 if (inputStream != null) {
@@ -105,5 +104,25 @@ public class SMBFileUtil {
                 log.error("", e);
             }
         }
+    }
+
+    /**
+     * 删除共享文件夹中的文件
+     * @param smbUrl
+     */
+    public static String deleteFile(String smbUrl) {
+        try {
+            SmbFile smbFile = new SmbFile(smbUrl);
+            if (smbFile.exists()) {
+                smbFile.delete();
+            } else {
+                return "文件不存在";
+            }
+        } catch (MalformedURLException e) {
+            log.error("delete smb file error.", e);
+        } catch (SmbException e) {
+            log.error("delete smb file error.", e);
+        }
+        return "success";
     }
 }

@@ -4,9 +4,11 @@
 // 更改文件上传方式
 function changeWay(way) {
     if (way == "local") {
-        alert("本地上传方式");
+        $("#localfilePath").removeAttr("disabled");
+        $("#smbFilePath").attr("disabled","disabled");
     } else if ("smb" == way) {
-        alert("SMB共享文件上传方式");
+        $("#smbFilePath").removeAttr("disabled");
+        $("#localfilePath").attr("disabled","disabled");
     }
 }
 

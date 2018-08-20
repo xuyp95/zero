@@ -1,7 +1,9 @@
 package com.zero.file.service.controller;
 
+import com.zero.file.service.service.FileConfigService;
 import com.zero.file.service.vo.FileConfigureVO;
 import com.zero.file.service.vo.ResultMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +20,22 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("configure")
 public class FileConfigController {
 
+    @Autowired
+    private FileConfigService fileConfigService;
+
     @GetMapping("")
     public ModelAndView configure(ModelAndView modelAndView) {
         modelAndView.setViewName("configure/page");
-        modelAndView.addObject("way", "local");
+
+        FileConfigureVO configureVO = fileConfigService.getConfig();
+        modelAndView.addObject("configVo", configureVO);
         return modelAndView;
     }
 
     @PostMapping("save")
     @ResponseBody
     public ResultMessage save(FileConfigureVO configureVO) {
-        System.out.println(configureVO.toString());
+        fileConfigService.save(configureVO);
         return ResultMessage.success();
     }
 }
