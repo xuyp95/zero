@@ -8,11 +8,9 @@ import com.zero.file.service.vo.FileConfigureVO;
 import com.zero.file.service.vo.ResultMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +19,7 @@ import java.util.Optional;
 
 /**
  * 文件服务的相关参数
+ *
  * @Author:xuyp
  * @Date:2018/8/12 23:56
  */
@@ -94,6 +93,7 @@ public class FileConfigServiceImpl implements FileConfigService {
 
     /**
      * 将参数值转成Model对象
+     *
      * @param key
      * @param value
      * @return
@@ -118,12 +118,13 @@ public class FileConfigServiceImpl implements FileConfigService {
 
     /**
      * 将model对象转成VO返回
+     *
      * @param vo
      * @param config
      */
     private void modelToVo(FileConfigureVO vo, FileConfig config) {
         switch (config.getConfigKey()) {
-            case FileConstantUtil.WAY :
+            case FileConstantUtil.WAY:
                 vo.setUploadWay(config.getConfigValue());
                 break;
             case FileConstantUtil.LOCAL_PATH:

@@ -22,7 +22,7 @@
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect. -->
-    <link rel="stylesheet" href="/plugin/admin_lte/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="/plugin/admin_lte/css/skins/skin-blue.css">
     <!-- AdminLTE 引入相关文件 end -->
     <!-- bootstrap addTabs 引入相关文件 start -->
     <link rel="stylesheet" href="/plugin/addTabs/css/bootstrap.addtabs.css">
@@ -118,12 +118,42 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
-                                <!--<a href="#home" role="tab" data-toggle="tab">Home</a>-->
+                                <a href="#info" role="tab" data-toggle="tab" aria-controls="tab_info">
+                                    <i class="glyphicon glyphicon-home"></i> 主页
+                                </a>
                             </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <!--<div role="tabpanel" class="tab-pane active" id="home">I'm a homepage.</div>-->
+                            <div id="info" role="tabpanel" class="tab-pane content active">
+                                <div style="width: 100%; text-align: center"><h2>这里是主页。</h2></div>
+                                <div style="float: left;margin-top: 35px;">
+                                    <h3>文件上传说明</h3>
+                                    <ul>
+                                        <li>
+                                            <h4>文件列表</h4>
+                                            <div>
+                                                上传成功的文件信息列表。可通过该列表管理上传文件
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h4>上传文件</h4>
+                                            <div>
+                                                上传文件页面
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h4>参数配置</h4>
+                                            <div>
+                                                上传文件服务相关参数配置
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div style="float: right;margin-top: 35px;">
+                                    <img src="/page/file/image/home.gif">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

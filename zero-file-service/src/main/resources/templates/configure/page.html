@@ -6,22 +6,25 @@
 </head>
 <body>
     <form id="configForm" th:object="${configVo}">
-        <div class="div-border">
+        <fieldset>
+            <legend>上传参数配置</legend>
             <div>
-                <input type="radio" value="local" name="uploadWay" th:checked="${configVo.uploadWay == 'local'}" onchange="changeWay('local')"/> 本地方式
+                <input type="radio" id="localWay" value="local" name="uploadWay" th:checked="${configVo.uploadWay == 'local'}" onchange="changeWay('local')"/>
+                <label for="localWay">本地方式</label>
                 <div class="form-group">
                     <label>上传文件服务的路径</label>
                     <input type="text" id="localfilePath" name="localfilePath" class="form-control" th:value="*{localfilePath}"/>
                 </div>
             </div>
             <div >
-                <input type="radio" value="smb" name="uploadWay" th:checked="${configVo.uploadWay == 'smb'}" onchange="changeWay('smb')"/> 共享文件方式(windows)
+                <input type="radio" id="smbWay" value="smb" name="uploadWay" th:checked="${configVo.uploadWay == 'smb'}" onchange="changeWay('smb')"/>
+                <label for="smbWay">共享文件方式(windows)</label>
                 <div class="form-group">
                     <label>共享文件路径</label>
                     <input type="text" id="smbFilePath" name="smbFilePath" class="form-control" th:disabled="${configVo.uploadWay != 'smb'}" th:value="*{smbFilePath}"/>
                 </div>
             </div>
-        </div>
+        </fieldset>
         <div style="margin-top: 20px;">
             其他参数待扩展(本页参数待真正业务使用中扩展，暂时未使用，功能也未实现)
         </div>
