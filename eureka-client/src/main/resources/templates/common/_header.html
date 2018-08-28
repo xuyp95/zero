@@ -1,0 +1,41 @@
+<head th:fragment="header(title, links)">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title th:replace="${title}">ZERO</title>
+    <!-- 设置图标 -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="/bootstrap/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+
+    <!-- 设置图标 -->
+    <link href="favicon.ico" rel="shortcut icon">
+
+    <link href="/bootstrap/css/bootstrap.min.css?v=3.3.7" rel="stylesheet">
+
+    <!-- AdminLTE 引入相关文件 start -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bootstrap/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bootstrap/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/plugin/admin_lte/css/AdminLTE.css">
+    <!--皮肤样式文件-->
+    <link rel="stylesheet" href="/plugin/admin_lte/css/skins/skin-blue.css">
+    <!-- AdminLTE 引入相关文件 end -->
+    <!-- bootstrap addTabs 引入相关文件 start -->
+    <link rel="stylesheet" href="/plugin/addTabs/css/bootstrap.addtabs.css">
+    <!-- bootstrap addTabs 引入相关文件 end -->
+    <!-- bootstrap-table组件 -->
+    <link href="/plugin/bootstrap-table/css/bootstrap-table.css" rel="stylesheet">
+    <!-- bootstrap dialog -->
+    <link href="/plugin/dialog/css/bootstrap-dialog.css" rel="stylesheet">
+
+    <!-- file input -->
+    <link href="/plugin/fileinput/css/fileinput.css" rel="stylesheet">
+
+    <!-- 自定义引入css文件 -->
+    <th:block th:replace="${links}" />
+    <!--<th:block th:replace="${styles}" />-->
+</head>

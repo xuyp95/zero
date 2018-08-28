@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>用户管理</title>
+    <link href="/page/auth/user/css/listAuthUser.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="panel panel-info">
+        <div class="panel-heading">查询条件</div>
+            <form id="searchForm">
+                <table class="searchTable">
+                    <tr>
+                        <th>名称：</th>
+                        <td>
+                            <input name="name" type="text" autocomplete="off" class="form-control" id="authUserName"/>
+                        </td>
+                        <td>
+                            <a class="btn btn-default" href="#" role="button" onclick="refresh()">
+                                <i class="glyphicon glyphicon-search"></i>查询
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+    </div>
+    <div class="toolbar-div">
+        <a class="btn btn-default" href="#" role="button" onclick="refresh()">
+            <i class="glyphicon glyphicon-refresh"></i> 刷新
+        </a><a class="btn btn-default" href="#" role="button" onclick="addUser()">
+            <i class="glyphicon glyphicon-plus"></i> 新增
+        </a>
+        <a class="btn btn-default" href="#" role="button" onclick="editUser()">
+            <i class="glyphicon glyphicon-pencil"></i> 修改
+        </a>
+        <a class="btn btn-default" href="#" role="button" onclick="delUser()">
+            <i class="glyphicon glyphicon-remove" aria-hidden="true"></i> 删除
+        </a>
+    </div>
+    <table id="authUserTable"></table>
+</div>
+</body>
+<script th:inline="javascript">
+// 需要thymeleaf 解析获取数据的脚本，需要放在 <script th:inline="javascript"> 标签内 所以就不抽取了
+// 对应页面的脚本必须在 该脚本之后加载，有用到对应的变量
+/*<![CDATA[*/
+var CTX = [[@{/}]];
+/*]]>*/
+</script>
+<!-- 引用简易封装会话框 -->
+<script src="/page/auth/user/js/listAuthUser.js"></script>
+</html>
