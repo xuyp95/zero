@@ -1,14 +1,14 @@
 $(function() {
-    var table = new UserTable();
-    table.Init();
+    var roleTable = new RoleTable();
+    roleTable.Init();
 })
 
-var UserTable = function() {
+var RoleTable = function() {
     var oTableInit = new Object();
     //初始化Table
     oTableInit.Init = function () {
-        $('#authUserTable').bootstrapTable({
-            url: CTX + 'user/queryPage',         //请求后台的URL（*）
+        $('#authRoleTable').bootstrapTable({
+            url: CTX + 'role/queryPage',         //请求后台的URL（*）
             method: 'POST',                      //请求方式（*）
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             // toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -26,7 +26,7 @@ var UserTable = function() {
             showRefresh: false,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: false,                //是否启用点击选中行
-            height: $(window).height() - $(".nav-tabs").height() -$(".main-footer").height()-$("#user-toolbar").height()-$("#userPanel").height() - $(".navbar-static-top").height() - 80,   //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            height: $(window).height() - $(".nav-tabs").height() -$(".main-footer").height()-$("#role-toolbar").height()-$("#rolePanel").height() - $(".navbar-static-top").height() - 80,   //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "id",                     //每一行的唯一标识，一般为主键列
             showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
@@ -36,19 +36,19 @@ var UserTable = function() {
                 width: "10%"
             }, {
                 field: 'name',
-                title: '用户名称',
+                title: '角色名称',
                 align: 'center',
                 valign: 'middle',
                 width: "20%"
             }, {
-                field: 'userName',
-                title: '账户名',
+                field: 'description',
+                title: '角色描述',
                 align: 'center',
                 valign: 'middle',
                 width: "20%"
             }, {
-                field: 'email',
-                title: '邮箱',
+                field: 'updateTime',
+                title: '更新时间',
                 align: 'center',
                 valign: 'middle',
                 width: "30%"
@@ -58,8 +58,8 @@ var UserTable = function() {
                 align: 'center',
                 formatter: function(value, row) {
                     var str = "";
-                    str += "<a href='#' onclick='editUser(\"" + row.id + "\")' title='编辑'>编辑</a>";
-                    str += " | <a href='#' onclick='delUser(\"" + row.id + "\")' title='删除'>删除</a>";
+                    str += "<a href='#' onclick='editRole(\"" + row.id + "\")' title='编辑'>编辑</a>";
+                    str += " | <a href='#' onclick='delRole(\"" + row.id + "\")' title='删除'>删除</a>";
                     return str;
                 }
             }]
@@ -69,8 +69,8 @@ var UserTable = function() {
     oTableInit.queryParams = function (params) {
         var vo = $("#searchForm").serialize();
         var temp = {   // 这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            pageSize: params.pageSize,   //页面大小
-            pageNo: params.pageNumber//,  //页码
+            pageSize: params.limit,   //页面大小
+            pageNo: params.offset//,  //页码
             // vo: vo
         };
         return temp;
@@ -82,10 +82,10 @@ var UserTable = function() {
  * 编辑用户
  * @param id
  */
-function editUser(id) {
+function editRole(id) {
     // 如果不是从行那边直接操作编辑，则判断是否有选中行进行操作
     if (id == null || id == "" || typeof(id) == "undefined") {
-        var selectRows = $('#authUserTable').bootstrapTable("getSelections");
+        var selectRows = $('#authRoleTable').bootstrapTable("getSelections");
         if (selectRows.length == 1) {
             id = selectRows[0].id;
         } else {
@@ -98,19 +98,19 @@ function editUser(id) {
             return;
         }
     }
-    addUser(id);
+    addRole(id);
 }
 
 
-var userDialog = null;
-function addUser(id) {
-    var url = CTX + "user/edit";
+var roleDialog = null;
+function addRole(id) {
+    var url = CTX + "role/edit";
     var title = "新增";
     if (id) {
         title = "编辑";
         url += "?id="+id;
     }
-    userDialog = BootstrapDialog.show({
+    roleDialog = BootstrapDialog.show({
         title: title + "用户",
         type : BootstrapDialog.TYPE_DEFAULT,
         size : BootstrapDialog.SIZE_WIDE,
@@ -127,17 +127,17 @@ function addUser(id) {
     })
 }
 
-function refreshUser() {
-    $('#authUserTable').bootstrapTable("refresh", {pageSize:10,pageNo:1});
+function refreshRole() {
+    $('#authRoleTable').bootstrapTable("refresh", {pageSize:10,pageNo:1});
 }
 
 // 删除用户
-function delUser(id) {
+function delRole(id) {
     var ids = id;
     // 判断是否从【操作栏】点击的删除，优先级高于checkbox的选择
     if (ids == null && typeof(ids) == "undefined" || ids == "") {
         // 获取选中行，并取得id
-        var selectRows = $('#authUserTable').bootstrapTable("getSelections");
+        var selectRows = $('#authRoleTable').bootstrapTable("getSelections");
         if (selectRows.length > 0) {
             var tempIds = "";
             for(var i = 0; i < selectRows.length; i++) {
@@ -161,7 +161,7 @@ function delUser(id) {
         callback: function(result) {
             if (result) {
                 $.ajax({
-                    url: CTX + "user/delete",
+                    url: CTX + "role/delete",
                     type: "POST",
                     data:{ids: ids},
                     asyn: false,
@@ -178,7 +178,7 @@ function delUser(id) {
                         if (data.code == "200") {
                             ZeroDialog.success("删除提示", "删除成功", function(dialogRef) {
                                 setTimeout(function() {
-                                    refresh();// 刷新列表
+                                    refreshRole();// 刷新列表
                                     dialogRef.close();// 关闭提示框
                                 }, 1000)
                             });

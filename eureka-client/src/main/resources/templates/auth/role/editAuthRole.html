@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/plugin/bootstrap-validator/css/bootstrapValidator.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" id="roleForm" th:object="${authRole}" role="form">
+            <input name="id" th:value="*{id}" type="hidden"/>
+            <div class="form-group">
+                <label for="roleName" class="col-sm-2 control-label">角色名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" id="roleName" placeholder="角色名称" autocomplete="off" th:value="*{name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">角色描述</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="description" id="description" placeholder="角色描述" autocomplete="off" th:value="*{description}"/>
+                </div>
+            </div>
+            <div class="form-group modal-footer">
+                <a href="#" class="btn btn-warning" onclick="roleDialog.close();">取消</a>
+                <a href="#" class="btn btn-default" onclick="saveRole()">保存</a>
+            </div>
+        </form>
+    </div>
+<!--<script src="/plugin/bootstrap-validator/js/language/zh_CN.js"></script>-->
+<script src="/plugin/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var CTX = [[@{/}]];
+
+$(function() {
+    // 初始化校验 bootstrap-validator
+    $("#roleForm").bootstrapValidator({
+        fields: {
+            name: {
+                message: "角色名称验证失败",
+                validators: {
+                    notEmpty: {
+                        message: "角色名称不能为空"
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 128,
+                        message: "用户名长度必须在6-128之间"
+                    }
+                }
+            }
+        }
+    });
+
+})
+
+/*
+保存操作
+*/
+function saveRole() {
+    // 前端数据校验，校验成功才进行提交
+    $("#roleForm").bootstrapValidator("validate");//提交验证
+    var isValid = $("#roleForm").data("bootstrapValidator").isValid();
+    if (isValid) {
+        $.bootstrapLoading.start({loadingTips: "正在处理数据，请稍候..."})// 显示loading
+        var url = CTX + "role/save";
+        var form = new FormData($("#roleForm")[0]);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: form,
+            asyn: false,
+            processData: false,
+            contentType: false,
+            complete: function () {
+                $.bootstrapLoading.end();// 关闭loading
+            },
+            success: function (data) {
+                if (data.code = "200") {
+                    ZeroDialog.success('提示', "保存成功", function(dialogRef) {
+                        setTimeout(function () {
+                            refreshRole();// 添加成功后刷新列表
+                            dialogRef.close();
+                            roleDialog.close();
+                        }, 800);
+                    });
+                } else {
+                    ZeroDialog.warning("删除提示", data.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                var message = XMLHttpRequest.responseJSON.message;
+                ZeroDialog.warning("提示", message);
+            }
+        });
+    }
+}
+/*]]>*/
+</script>
+</body>
+</html>

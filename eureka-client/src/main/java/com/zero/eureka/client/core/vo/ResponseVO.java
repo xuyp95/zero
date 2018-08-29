@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
  * @Date:2018/8/27 22:34
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class ResponseVO {
 
@@ -23,5 +22,10 @@ public class ResponseVO {
     public ResponseVO(String code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public ResponseVO() {
+        this.code = "200";
+        this.message = "success";
     }
 }

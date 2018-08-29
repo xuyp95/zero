@@ -7,16 +7,17 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 实体
+ * 用户实体
  * @Author:xuyp
  * @Date:2018/8/27 23:15
  */
-@Entity
-@Table(name = "auth_user")
 @Getter
 @Setter
+@Entity
+@Table(name = "auth_user")
 public class AuthUser implements Serializable {
 
     /**
@@ -74,4 +75,9 @@ public class AuthUser implements Serializable {
      */
     @Column(name = "update_time", updatable = false, columnDefinition = "datetime comment '更新时间'")
     private LocalDateTime updateTime;
+
+    @ManyToMany(fetch = FetchType.LAZY)// 懒加载， EAGER：立即加载
+    @JoinTable(name = "auth_user_role", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<AuthRole> roleList;
 }

@@ -43,7 +43,7 @@ public class AuthUserController {
      */
     @GetMapping("list")
     public ModelAndView list(ModelAndView modelAndView) {
-        modelAndView.setViewName("authUser/listAuthUser");
+        modelAndView.setViewName("auth/user/listAuthUser");
         return modelAndView;
     }
 
@@ -68,7 +68,7 @@ public class AuthUserController {
         if (StringUtils.isNotBlank(id)) {
             authUserVO = authUserService.findById(id);
         }
-        modelAndView.setViewName("authUser/editAuthUser");
+        modelAndView.setViewName("auth/user/editAuthUser");
 
         modelAndView.addObject("authUserVO", authUserVO);
         return modelAndView;

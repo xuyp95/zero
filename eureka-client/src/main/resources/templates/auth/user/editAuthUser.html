@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/plugin/bootstrap-validator/css/bootstrapValidator.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <form class="form-horizontal" id="userForm" th:object="${authUserVO}" role="form">
+            <input name="id" th:value="*{id}" type="hidden"/>
+            <div class="form-group">
+                <label for="userName" class="col-sm-1 control-label">账户名</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" name="userName" id="userName" placeholder="账户名" autocomplete="off" th:value="*{userName}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-1 control-label">密码</label>
+                <div class="col-sm-11">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="密码" autocomplete="off" th:value="*{password}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-1 control-label">名称</label>
+                <div class="col-sm-11">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="名称" autocomplete="off" th:value="*{name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-1 control-label">邮箱</label>
+                <div class="col-sm-11">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="邮箱" autocomplete="off" th:value="*{email}"/>
+                </div>
+            </div>
+            <div class="form-group modal-footer">
+                <a href="#" class="btn btn-warning" onclick="userDialog.close();">取消</a>
+                <a href="#" class="btn btn-default" onclick="saveUser()">保存</a>
+            </div>
+        </form>
+    </div>
+<!--<script src="/plugin/bootstrap-validator/js/language/zh_CN.js"></script>-->
+<script src="/plugin/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var CTX = [[@{/}]];
+
+$(function() {
+    // 初始化校验 bootstrap-validator
+    $("#userForm").bootstrapValidator({
+        fields: {
+            userName: {
+                message: "用户名验证失败",
+                validators: {
+                    notEmpty: {
+                        message: "用户名不能为空"
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 128,
+                        message: "用户名长度必须在6-128之间"
+                    } //,
+//                    regexp: {
+//                        regexp:"正则表达式",
+//                        message: ""
+//                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: "密码不能为空"
+                    },
+                    stringLenght: {
+                        min: 6,
+                        max: 128,
+                        message: "密码长度要求在6-128之间"
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    emailAddress: {
+                        message: '邮箱地址格式有误'
+                    }
+                }
+            }
+        }
+    });
+
+})
+
+/*
+保存操作
+*/
+function saveUser() {
+    // 前端数据校验，校验成功才进行提交
+    $("#userForm").bootstrapValidator("validate");//提交验证
+    var isValid = $("#userForm").data("bootstrapValidator").isValid();
+    if (isValid) {
+        $.bootstrapLoading.start({loadingTips: "正在处理数据，请稍候..."})// 显示loading
+        var url = CTX + "user/save";
+        var form = new FormData($("#userForm")[0]);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: form,
+            asyn: false,
+            processData: false,
+            contentType: false,
+            complete: function () {
+                $.bootstrapLoading.end();// 关闭loading
+            },
+            success: function (data) {
+                if (data.code = "200") {
+                    ZeroDialog.success('提示', "保存成功", function(dialogRef) {
+                        setTimeout(function () {
+                            refreshUser();// 添加成功后刷新列表
+                            dialogRef.close();
+                            userDialog.close();
+                        }, 800);
+                    });
+                } else {
+                    ZeroDialog.warning("删除提示", data.message);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                var message = XMLHttpRequest.responseJSON.message;
+                ZeroDialog.warning("提示", message);
+            }
+        });
+    }
+}
+/*]]>*/
+</script>
+</body>
+</html>

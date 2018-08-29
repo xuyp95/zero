@@ -1,0 +1,25 @@
+
+.panel-default>.panel-heading {
+    background-color: transparent;
+}
+.container-fluid {
+    padding-top: 15px;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+.panel {
+    margin-bottom: 0px;
+}
+
+.toolbar-div {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+/* 本页面样式 */
+.searchTable {
+    border-collapse: separate;/* 设置成其他的则一下间距不起效果 */
+    border-spacing: 10px 5px; /* 设置单元格左右边距为5px */
+}
